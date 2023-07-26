@@ -1,0 +1,10 @@
+apiVersion: snapshot.kubevirt.io/v1alpha1
+kind: VirtualMachineRestore
+metadata:
+  name: snaprestore-ubuntu-vm-csi
+spec:
+  target:
+    apiGroup: kubevirt.io
+    kind: VirtualMachine
+    name: ubuntu-vm-restored
+  virtualMachineSnapshotName: snap-ubuntu-vm-csi

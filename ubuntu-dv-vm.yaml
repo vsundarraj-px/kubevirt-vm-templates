@@ -1,0 +1,72 @@
+apiVersion: kubevirt.io/v1
+kind: VirtualMachine
+metadata:
+  creationTimestamp: 2018-07-04T15:03:08Z
+  generation: 1
+  labels:
+    kubevirt.io/os: linux
+  name: ubuntu-vm-dv
+spec:
+  running: true
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        kubevirt.io/domain: ubuntu-vm-dv
+    spec:
+      domain:
+        cpu:
+          cores: 2
+        devices:
+          interfaces:
+            - name: default
+              masquerade: {}
+          disks:
+          - disk:
+              bus: virtio
+            name: dvdisk0
+          - disk:
+              bus: virtio
+            name: disk1
+          - cdrom:
+              bus: sata
+              readonly: true
+            name: cloudinitdisk
+        machine:
+          type: q35
+        resources:
+          requests:
+            memory: 1024M
+      networks:
+      - name: default
+        pod: {}
+      volumes:
+      - dataVolume: 
+          name: datavolumedisk0
+        name: dvdisk0 
+      - name: disk1
+        persistentVolumeClaim:
+          claimName: cirros-px-pvc-block
+      - cloudInitNoCloud:
+          userData: |
+            #cloud-config
+            hostname: ubuntu-vm
+            password: test123
+            chpasswd: { expire: False }
+            ssh_pwauth: True
+            disable_root: false
+        name: cloudinitdisk
+  dataVolumeTemplates:
+  - metadata:
+      name: datavolumedisk0
+    spec:
+      source:
+        http:
+          url: "https://cloud-images.ubuntu.com/bionic/current/bionic-server-cloudimg-amd64.img"
+      pvc:
+        storageClassName: px-csi-db
+        accessModes:
+        - ReadWriteOnce
+        resources:
+          requests:
+            storage: 5Gi

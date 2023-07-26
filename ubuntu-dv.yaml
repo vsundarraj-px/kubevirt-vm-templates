@@ -1,0 +1,15 @@
+apiVersion: cdi.kubevirt.io/v1beta1
+kind: DataVolume
+metadata:
+  name: import-archive-datavolume
+spec:
+  source:
+      http:
+         url: "http://download.cirros-cloud.net/0.3.0/cirros-0.3.0-x86_64-disk.img"
+  pvc:
+    storageClassName: px-csi-db
+    accessModes:
+      - ReadWriteOnce
+    resources:
+      requests:
+        storage: 5Gi

@@ -1,0 +1,10 @@
+apiVersion: snapshot.kubevirt.io/v1alpha1
+kind: VirtualMachineRestore
+metadata:
+  name: snaprestore-testvm-block-3
+spec:
+  target:
+    apiGroup: kubevirt.io
+    kind: VirtualMachine
+    name: testvm-block
+  virtualMachineSnapshotName: snap-testvm-block-3

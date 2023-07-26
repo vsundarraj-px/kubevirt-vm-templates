@@ -1,0 +1,56 @@
+---
+apiVersion: instancetype.kubevirt.io/v1alpha1
+kind: VirtualMachineInstancetype
+metadata:
+  name: cmedium
+spec:
+  cpu:
+    guest: 1
+  memory:
+    guest: 1Gi
+---
+apiVersion: instancetype.kubevirt.io/v1alpha1
+kind: VirtualMachinePreference
+metadata:
+  name: fedora
+spec:
+  devices:
+    preferredDiskBus: virtio
+    preferredInterfaceModel: virtio
+    preferredRng: {}
+  features:
+    preferredAcpi: {}
+    preferredSmm: {}
+  firmware:
+    preferredUseEfi: true
+    preferredUseSecureBoot: true    
+---
+apiVersion: kubevirt.io/v1
+kind: VirtualMachine
+metadata:
+  creationTimestamp: null
+  name: fedora
+spec:
+  instancetype:
+    name: cmedium
+    kind: virtualMachineInstancetype
+  preference:
+    name: fedora
+    kind: virtualMachinePreference
+  runStrategy: Always
+  template:
+    metadata:
+      creationTimestamp: null
+    spec:
+      domain:
+        devices: {}
+      volumes:
+      - containerDisk:
+          image: quay.io/containerdisks/fedora:latest
+        name: containerdisk
+      - cloudInitNoCloud:
+          userData: |-
+            #cloud-config
+            ssh_authorized_keys:
+              - ssh-rsa AAAA...
+        name: cloudinit
