@@ -1,11 +1,11 @@
 apiVersion: cdi.kubevirt.io/v1beta1
 kind: DataVolume
 metadata:
-  name: import-archive-datavolume
+  name: ubuntu-px-dv
 spec:
   source:
       http:
-         url: "http://download.cirros-cloud.net/0.3.0/cirros-0.3.0-x86_64-disk.img"
+         url: "https://cloud-images.ubuntu.com/bionic/current/bionic-server-cloudimg-amd64.img"
   pvc:
     storageClassName: px-csi-db
     accessModes:
