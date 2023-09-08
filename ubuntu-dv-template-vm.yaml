@@ -32,7 +32,7 @@ spec:
         name: datavolumedisk1
   dataVolumeTemplates:
   - metadata:
-      name: alpine-dv
+      name: ubuntu-dv
     spec:
       pvc:
         storageClassName: px-csi-db
