@@ -22,7 +22,7 @@ spec:
             masquerade: {}
         resources:
           requests:
-            memory: 64M
+            memory: 1024M
       networks:
       - name: default
         pod: {}
@@ -33,6 +33,8 @@ spec:
   dataVolumeTemplates:
   - metadata:
       name: ubuntu-dv
+      annotations:
+        cdi.kubevirt.io/storage.usePopulator: "false"
     spec:
       pvc:
         storageClassName: px-csi-db
