@@ -1,0 +1,45 @@
+apiVersion: kubevirt.io/v1alpha3
+kind: VirtualMachine
+metadata:
+  creationTimestamp: null
+  labels:
+    kubevirt.io/vm: vm-ubuntu-agent-dvt
+  name: vm-ubuntu-datavolume
+spec:
+  dataVolumeTemplates:
+  - metadata:
+      creationTimestamp: null
+      name: ubuntu-dv
+    spec:
+      pvc:
+        accessModes:
+        - ReadWriteOnce
+        resources:
+          requests:
+            storage: 6Gi
+        storageClassName: px-csi-db
+      source:
+        registry:
+          url: "docker://docker.io/vsundarraj220/ubuntu-img:small"
+  running: false
+  template:
+    metadata:
+      labels:
+        kubevirt.io/vm: vm-datavolume
+    spec:
+      domain:
+        devices:
+          disks:
+          - disk:
+              bus: virtio
+            name: datavolumevolume
+        machine:
+          type: ""
+        resources:
+          requests:
+            memory: 1024M
+      terminationGracePeriodSeconds: 0
+      volumes:
+      - dataVolume:
+          name: ubuntu-dv
+        name: datavolumevolume
