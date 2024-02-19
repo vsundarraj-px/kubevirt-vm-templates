@@ -20,7 +20,7 @@ spec:
         storageClassName: px-csi-db
       source:
         registry:
-          url: "docker://docker.io/vsundarraj220/ubuntu-img:small"
+          url: "pure-artifactory.dev.purestorage.com/px-docker-dev-virtual/vsundarraj/ubuntu-img:small"
   running: false
   template:
     metadata:
